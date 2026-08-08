@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>East &amp; West | شرق وغرب — Luxury Patisserie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF6EF;
+    --cream-2:#F3ECDD;
+    --beige:#E7D8B8;
+    --gold:#C6A15B;
+    --gold-soft:#D9BC85;
+    --gold-deep:#9C7A34;
+    --brown:#5C3A21;
+    --brown-deep:#241609;
+    --ink:#2E1D10;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--cream); color:var(--ink); overflow-x:hidden;}
+  img{width:100%; height:100%; object-fit:cover; display:block;}
+  a{color:inherit;}
+  .en{font-family:'Poppins',sans-serif;}
+  .ar{font-family:'Tajawal',sans-serif; direction:rtl;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* reveal on scroll */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  .reveal-stagger > *{opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal-stagger.in > *{opacity:1; transform:translateY(0);}
+
+  /* ===== NAV ===== */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.1rem 4vw;
+    background:rgba(250,246,239,0);
+    transition:background .35s ease, box-shadow .35s ease, padding .35s ease;
+  }
+  header.scrolled{
+    background:rgba(250,246,239,.94);
+    backdrop-filter:blur(8px);
+    box-shadow:0 4px 24px rgba(46,29,16,.06);
+    padding:.75rem 4vw;
+  }
+  .brand{display:flex; flex-direction:column; line-height:1;}
+  .brand-ar{font-family:'Aref Ruqaa',serif; font-size:1.35rem; color:var(--brown-deep);}
+  .brand-en{font-family:'Poppins',sans-serif; font-size:.62rem; letter-spacing:.28em; color:var(--gold-deep); text-transform:uppercase; margin-top:.15rem;}
+  nav.links{display:flex; gap:2.1rem; font-family:'Poppins',sans-serif; font-size:.82rem; letter-spacing:.02em;}
+  nav.links a{text-decoration:none; color:var(--brown); position:relative; padding-bottom:3px;}
+  nav.links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold-deep);transition:width .3s ease;}
+  nav.links a:hover::after{width:100%;}
+  .nav-cta{
+    font-family:'Poppins',sans-serif; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase;
+    border:1px solid var(--gold-deep); padding:.6rem 1.5rem; text-decoration:none; color:var(--brown-deep);
+    transition:background .3s ease,color .3s ease;
+  }
+  .nav-cta:hover{background:var(--gold-deep); color:var(--cream);}
+  .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer;}
+  .burger span{width:24px; height:2px; background:var(--brown-deep);}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    overflow:hidden; text-align:center; padding:8rem 6vw 4rem;
+  }
+  .hero-bg{
+    position:absolute; inset:0; z-index:0;
+  }
+  .hero-bg img{opacity:.28; filter:saturate(.85) sepia(.08);}
+  .hero-bg::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(250,246,239,.55) 0%, rgba(250,246,239,.85) 70%, var(--cream) 100%);
+  }
+  .hero-content{position:relative; z-index:2; max-width:780px;}
+  .hero-eyebrow{
+    font-family:'Poppins',sans-serif; font-size:.75rem; letter-spacing:.4em; text-transform:uppercase;
+    color:var(--gold-deep); margin-bottom:1.6rem;
+    opacity:0; animation:fadeUp 1s ease .2s forwards;
+  }
+  .hero h1{
+    font-family:'Aref Ruqaa',serif; font-weight:700; color:var(--brown-deep);
+    font-size:clamp(3rem,8vw,5.6rem); line-height:1.15; margin-bottom:.4rem;
+    opacity:0; animation:fadeUp 1s ease .4s forwards;
+  }
+  .hero h1 .en-part{
+    display:block; font-family:'Playfair Display',serif; font-style:italic; font-weight:500;
+    font-size:clamp(1.4rem,3vw,2.1rem); color:var(--gold-deep); margin-top:.6rem;
+  }
+  .hero p{
+    font-family:'Tajawal',sans-serif; font-size:1.15rem; color:var(--brown); max-width:46ch; margin:1.4rem auto 0;
+    opacity:0; animation:fadeUp 1s ease .6s forwards;
+  }
+  .hero-actions{
+    display:flex; gap:1rem; justify-content:center; margin-top:2.6rem; flex-wrap:wrap;
+    opacity:0; animation:fadeUp 1s ease .8s forwards;
+  }
+  .btn-solid, .btn-outline{
+    font-family:'Poppins',sans-serif; font-size:.82rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:.95rem 2.2rem; text-decoration:none; transition:all .3s ease; border-radius:1px;
+  }
+  .btn-solid{background:var(--brown-deep); color:var(--cream); border:1px solid var(--brown-deep);}
+  .btn-solid:hover{background:transparent; color:var(--brown-deep);}
+  .btn-outline{border:1px solid var(--gold-deep); color:var(--brown-deep);}
+  .btn-outline:hover{background:var(--gold-deep); color:var(--cream);}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(24px);} to{opacity:1; transform:translateY(0);}}
+
+  .scroll-cue{
+    position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:2;
+    font-family:'Poppins',sans-serif; font-size:.65rem; letter-spacing:.3em; text-transform:uppercase;
+    color:var(--gold-deep); display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  }
+  .scroll-cue::after{content:""; width:1px; height:36px; background:var(--gold-deep); animation:scrollLine 1.8s ease-in-out infinite;}
+  @keyframes scrollLine{0%{transform:scaleY(0); transform-origin:top;} 50%{transform:scaleY(1); transform-origin:top;} 51%{transform-origin:bottom;} 100%{transform:scaleY(0); transform-origin:bottom;}}
+
+  /* ===== SECTION shell ===== */
+  section{position:relative; padding:7rem 6vw;}
+  .eyebrow{
+    font-family:'Poppins',sans-serif; font-size:.72rem; letter-spacing:.35em; text-transform:uppercase;
+    color:var(--gold-deep); text-align:center; margin-bottom:.9rem;
+  }
+  .eyebrow-ar{font-family:'Tajawal',sans-serif; letter-spacing:.05em;}
+  .section-title{
+    font-family:'Playfair Display',serif; font-weight:600; text-align:center;
+    font-size:clamp(2rem,4vw,3rem); color:var(--brown-deep); margin-bottom:1rem;
+  }
+  .section-title-ar{
+    font-family:'Aref Ruqaa',serif; font-weight:700; text-align:center; direction:rtl;
+    font-size:clamp(2.1rem,4.4vw,3.3rem); color:var(--brown-deep); margin-bottom:1rem;
+  }
+  .section-sub{
+    text-align:center; max-width:56ch; margin:0 auto 3.5rem; color:var(--brown); font-size:1.02rem; line-height:1.7;
+  }
+
+  /* ===== ABOUT ===== */
+  .about-wrap{display:grid; grid-template-columns:.9fr 1.1fr; gap:5vw; align-items:center;}
+  .about-img{position:relative; border-radius:2px; overflow:hidden; aspect-ratio:4/5; box-shadow:0 30px 60px -20px rgba(46,29,16,.35);}
+  .about-badge{
+    position:absolute; bottom:-1.2rem; right:-1.2rem; background:var(--brown-deep); color:var(--cream);
+    width:110px; height:110px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-family:'Playfair Display',serif; text-align:center; box-shadow:0 15px 30px rgba(46,29,16,.4);
+  }
+  .about-badge b{font-size:1.7rem; line-height:1;}
+  .about-badge span{font-family:'Poppins',sans-serif; font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; margin-top:.2rem; color:var(--gold);}
+  .about-text h3{font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(1.6rem,2.6vw,2.3rem); color:var(--brown-deep); margin-bottom:1.2rem; line-height:1.3;}
+  .about-text p{color:var(--brown); line-height:1.9; margin-bottom:1.1rem; font-size:1rem;}
+  .about-features{display:grid; grid-template-columns:1fr 1fr; gap:1.6rem; margin-top:2.2rem;}
+  .about-feature{border-top:1px solid var(--beige); padding-top:1rem;}
+  .about-feature .num{font-family:'Playfair Display',serif; color:var(--gold-deep); font-size:.85rem; margin-bottom:.3rem;}
+  .about-feature h4{font-family:'Poppins',sans-serif; font-size:.95rem; margin-bottom:.35rem; color:var(--brown-deep);}
+  .about-feature p{font-size:.85rem; color:var(--brown); opacity:.85; margin:0;}
+
+  /* ===== COLLECTIONS ===== */
+  .collection{background:var(--cream-2);}
+  .collection.east{direction:rtl;}
+  .filters{display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap; margin-bottom:3rem;}
+  .filter-btn{
+    font-family:'Poppins',sans-serif; font-size:.75rem; letter-spacing:.04em;
+    padding:.5rem 1.2rem; border:1px solid var(--beige); background:transparent; color:var(--brown);
+    cursor:pointer; border-radius:20px; transition:all .25s ease;
+  }
+  .collection.east .filter-btn{font-family:'Tajawal',sans-serif;}
+  .filter-btn.active, .filter-btn:hover{background:var(--gold-deep); border-color:var(--gold-deep); color:var(--cream);}
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1.8rem;}
+  .card{
+    background:var(--cream); border-radius:2px; overflow:hidden; position:relative;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .card:hover{transform:translateY(-6px); box-shadow:0 22px 40px -18px rgba(46,29,16,.3);}
+  .card-img{aspect-ratio:1/1; overflow:hidden; position:relative;}
+  .card-img img{transition:transform .6s ease;}
+  .card:hover .card-img img{transform:scale(1.08);}
+  .card-badge{
+    position:absolute; top:.7rem; left:.7rem; background:var(--brown-deep); color:var(--gold);
+    font-family:'Poppins',sans-serif; font-size:.62rem; letter-spacing:.06em; text-transform:uppercase;
+    padding:.3rem .7rem; border-radius:20px;
+  }
+  .collection.east .card-badge{font-family:'Tajawal',sans-serif; left:auto; right:.7rem;}
+  .card-body{padding:1.2rem 1.3rem 1.4rem;}
+  .card-body h4{font-family:'Playfair Display',serif; font-size:1.15rem; color:var(--brown-deep); margin-bottom:.4rem;}
+  .collection.east .card-body h4{font-family:'Aref Ruqaa',serif; font-size:1.3rem;}
+  .card-body p{font-size:.83rem; color:var(--brown); opacity:.8; line-height:1.55; margin-bottom:.8rem; min-height:2.7em;}
+  .card-foot{display:flex; align-items:center; justify-content:space-between;}
+  .price{font-family:'Poppins',sans-serif; font-size:.95rem; color:var(--gold-deep); font-weight:500;}
+  .collection.east .price{font-family:'Tajawal',sans-serif;}
+  .add-btn{
+    font-family:'Poppins',sans-serif; font-size:.68rem; letter-spacing:.05em; text-transform:uppercase;
+    border:1px solid var(--brown-deep); background:none; padding:.45rem 1rem; cursor:pointer; transition:all .25s ease;
+  }
+  .collection.east .add-btn{font-family:'Tajawal',sans-serif;}
+  .add-btn:hover{background:var(--brown-deep); color:var(--cream);}
+
+  /* ===== SIGNATURE ===== */
+  .signature{display:grid; grid-template-columns:1fr 1fr; gap:0; padding:0;}
+  .sig-img{position:relative; aspect-ratio:auto; min-height:640px; overflow:hidden;}
+  .sig-text{
+    background:var(--brown-deep); color:var(--cream); display:flex; flex-direction:column; justify-content:center;
+    padding:5vw 5vw;
+  }
+  .sig-eyebrow{font-family:'Poppins',sans-serif; font-size:.72rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem;}
+  .sig-text h2{font-family:'Playfair Display',serif; font-weight:600; font-size:clamp(2rem,3.6vw,3rem); line-height:1.2; margin-bottom:1.4rem;}
+  .sig-text p{color:var(--beige); line-height:1.85; margin-bottom:2.2rem; max-width:48ch;}
+  .sig-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:2.4rem;}
+  .sig-stat b{display:block; font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--gold);}
+  .sig-stat span{font-family:'Poppins',sans-serif; font-size:.68rem; letter-spacing:.05em; text-transform:uppercase; color:var(--beige); opacity:.8;}
+
+  /* ===== OCCASIONS ===== */
+  .occ-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem;}
+  .occ-card{position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:2px;}
+  .occ-card img{transition:transform .6s ease;}
+  .occ-card:hover img{transform:scale(1.1);}
+  .occ-overlay{
+    position:absolute; inset:0; background:linear-gradient(0deg, rgba(36,22,9,.88) 0%, rgba(36,22,9,.15) 55%, transparent 100%);
+    display:flex; flex-direction:column; justify-content:flex-end; padding:1.6rem; color:var(--cream);
+  }
+  .occ-overlay h4{font-family:'Playfair Display',serif; font-size:1.35rem;}
+  .occ-overlay span.ar-tag{font-family:'Aref Ruqaa',serif; font-size:1rem; color:var(--gold); display:block; margin:.2rem 0 .5rem;}
+  .occ-overlay p{font-family:'Poppins',sans-serif; font-size:.8rem; opacity:.85; font-weight:300;}
+
+  /* ===== WHY US ===== */
+  .why-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:2.2rem; margin-bottom:5rem;}
+  .why-card{text-align:center; padding:2rem 1.2rem; border:1px solid var(--beige);}
+  .why-icon{
+    width:52px; height:52px; margin:0 auto 1.2rem; border-radius:50%; border:1px solid var(--gold-deep);
+    display:flex; align-items:center; justify-content:center; color:var(--gold-deep); font-family:'Playfair Display',serif; font-size:1.3rem;
+  }
+  .why-card h4{font-family:'Playfair Display',serif; font-size:1.15rem; margin-bottom:.6rem; color:var(--brown-deep);}
+  .why-card p{font-size:.87rem; color:var(--brown); line-height:1.6; opacity:.85;}
+  .stats-row{display:grid; grid-template-columns:repeat(4,1fr); text-align:center; border-top:1px solid var(--beige); border-bottom:1px solid var(--beige); padding:3rem 0;}
+  .stat b{display:block; font-family:'Playfair Display',serif; font-size:2.6rem; color:var(--gold-deep);}
+  .stat span{font-family:'Poppins',sans-serif; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--brown);}
+
+  /* ===== GALLERY ===== */
+  .gallery-grid{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:180px; gap:.8rem;}
+  .g-item{position:relative; overflow:hidden; border-radius:2px;}
+  .g-item:nth-child(1){grid-row:span 2;}
+  .g-item:nth-child(6){grid-row:span 2;}
+  .g-item img{transition:transform .6s ease;}
+  .g-item:hover img{transform:scale(1.12);}
+  .g-tag{
+    position:absolute; bottom:.6rem; left:.6rem; background:rgba(36,22,9,.75); color:var(--cream);
+    font-family:'Poppins',sans-serif; font-size:.65rem; letter-spacing:.05em; text-transform:uppercase; padding:.3rem .7rem;
+  }
+
+  /* ===== TESTIMONIAL ===== */
+  .testimonial{max-width:760px; margin:0 auto; text-align:center;}
+  .quote-mark{font-family:'Playfair Display',serif; font-size:3.5rem; color:var(--gold); line-height:1; margin-bottom:1rem;}
+  .testimonial p{font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(1.2rem,2vw,1.55rem); color:var(--brown-deep); line-height:1.7; margin-bottom:1.6rem;}
+  .testimonial-name{font-family:'Poppins',sans-serif; font-size:.85rem; letter-spacing:.05em; color:var(--gold-deep); text-transform:uppercase;}
+  .testimonial-role{font-family:'Poppins',sans-serif; font-size:.75rem; color:var(--brown); opacity:.7;}
+
+  /* ===== FAQ ===== */
+  .faq-wrap{max-width:760px; margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--beige);}
+  .faq-q{
+    width:100%; text-align:inherit; background:none; border:none; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center; gap:1rem;
+    padding:1.4rem 0; font-family:'Playfair Display',serif; font-size:1.08rem; color:var(--brown-deep);
+  }
+  .faq-item.ar .faq-q{font-family:'Tajawal',sans-serif; font-weight:500; font-size:1.05rem;}
+  .faq-icon{font-size:1.3rem; color:var(--gold-deep); transition:transform .3s ease; flex-shrink:0;}
+  .faq-item.open .faq-icon{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .4s ease;}
+  .faq-a p{padding-bottom:1.4rem; color:var(--brown); font-size:.92rem; line-height:1.75; opacity:.9;}
+  .faq-item.ar .faq-a p{font-family:'Tajawal',sans-serif;}
+
+  /* ===== CONTACT ===== */
+  .contact-wrap{display:grid; grid-template-columns:1fr 1fr; gap:5vw;}
+  .form-field{margin-bottom:1.3rem;}
+  .form-field input, .form-field textarea{
+    width:100%; border:none; border-bottom:1px solid var(--beige); background:transparent;
+    padding:.8rem .2rem; font-family:'Poppins',sans-serif; font-size:.92rem; color:var(--ink);
+    transition:border-color .25s ease;
+  }
+  .form-field input:focus, .form-field textarea:focus{outline:none; border-color:var(--gold-deep);}
+  .contact-info h4{font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--brown-deep); margin-bottom:1.6rem;}
+  .info-row{display:flex; gap:1rem; margin-bottom:1.6rem; align-items:flex-start;}
+  .info-icon{width:38px; height:38px; border-radius:50%; border:1px solid var(--gold-deep); display:flex; align-items:center; justify-content:center; color:var(--gold-deep); flex-shrink:0; font-size:.9rem;}
+  .info-row b{display:block; font-family:'Poppins',sans-serif; font-size:.85rem; color:var(--brown-deep); margin-bottom:.2rem;}
+  .info-row span{font-size:.85rem; color:var(--brown); opacity:.85;}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--brown-deep); color:var(--cream); padding:5rem 6vw 2rem;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:4vw; margin-bottom:3rem;}
+  .foot-brand-ar{font-family:'Aref Ruqaa',serif; font-size:1.6rem; margin-bottom:.2rem;}
+  .foot-brand-en{font-family:'Playfair Display',serif; font-style:italic; color:var(--gold); margin-bottom:1.2rem;}
+  .foot-grid p{font-size:.85rem; color:var(--beige); opacity:.85; line-height:1.7; max-width:34ch;}
+  .foot-col h5{font-family:'Poppins',sans-serif; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem;}
+  .foot-col a{display:block; text-decoration:none; color:var(--beige); font-size:.85rem; margin-bottom:.7rem; opacity:.85;}
+  .foot-bottom{border-top:1px solid rgba(248,243,234,.15); padding-top:1.6rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-family:'Poppins',sans-serif; font-size:.72rem; color:rgba(248,243,234,.5); letter-spacing:.03em;}
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:980px){
+    nav.links, .nav-cta{display:none;}
+    .burger{display:flex;}
+    .about-wrap, .signature, .contact-wrap{grid-template-columns:1fr;}
+    .sig-img{min-height:340px;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .occ-grid{grid-template-columns:repeat(2,1fr);}
+    .why-grid{grid-template-columns:1fr 1fr;}
+    .stats-row{grid-template-columns:1fr 1fr; row-gap:2rem;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:150px;}
+    section{padding:5rem 6vw;}
+  }
+  @media (max-width:560px){
+    .grid, .why-grid{grid-template-columns:1fr;}
+    .occ-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="brand">
+    <span class="brand-ar">شرق وغرب</span>
+    <span class="brand-en">East &amp; West Patisserie</span>
+  </div>
+  <nav class="links">
+    <a href="#about">About</a>
+    <a href="#western">Western</a>
+    <a href="#eastern">الشرقية</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a href="#contact" class="nav-cta en">Order Now</a>
+  <button class="burger" aria-label="menu"><span></span><span></span><span></span></button>
+</header>
+
+<!-- HERO -->
+<section class="hero" style="padding-top:0;">
+  <div class="hero-bg" id="heroImg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow en">Luxury Patisserie · Est. 2012</div>
+    <h1>شرق وغرب<span class="en-part">East &amp; West</span></h1>
+    <p class="ar">حيث تلتقي حرفية الحلويات الفرنسية بدفء الضيافة الشرقية — تُصنع يدويًا كل صباح.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-solid en">Order Now</a>
+      <a href="#western" class="btn-outline en">Explore Menu</a>
+    </div>
+  </div>
+  <div class="scroll-cue en">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-wrap reveal">
+    <div class="about-img" id="aboutImg">
+      <div class="about-badge"><b>14</b><span>Years</span></div>
+    </div>
+    <div class="about-text">
+      <div class="eyebrow en" style="text-align:left;">Our Story</div>
+      <h3>A bakery built on butter, patience, and two traditions.</h3>
+      <p class="en">East &amp; West began as a simple idea: dessert shouldn't have to choose a side. Our kitchen runs two counters under one roof — a French patisserie bench on one, a copper qatayef pan on the other — both fed by the same obsession with doing it properly.</p>
+      <p class="ar">كل قطعة تُصنع يدويًا في نفس يوم بيعها، من نفس المطبخ، بنفس الشغف — سواء كانت كرواسون فرنسي أو كنافة بلدي.</p>
+      <div class="about-features">
+        <div class="about-feature">
+          <div class="num en">01</div>
+          <h4 class="en">Handmade Daily</h4>
+          <p class="en">Nothing frozen, nothing sits overnight.</p>
+        </div>
+        <div class="about-feature">
+          <div class="num en">02</div>
+          <h4 class="en">Two Kitchens, One Roof</h4>
+          <p class="en">Classically trained pastry chefs, side by side with our oriental sweets masters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WESTERN COLLECTION -->
+<section id="western" class="collection">
+  <div class="eyebrow en">The Collection</div>
+  <h2 class="section-title">Western Selection</h2>
+  <p class="section-sub en">French technique, Belgian chocolate, and a quiet obsession with getting the details right.</p>
+  <div class="filters" id="filtersWest">
+    <button class="filter-btn en active" data-filter="all">All</button>
+    <button class="filter-btn en" data-filter="cakes">Cakes</button>
+    <button class="filter-btn en" data-filter="pastry">Pastry</button>
+    <button class="filter-btn en" data-filter="sweets">Small Bites</button>
+  </div>
+  <div class="grid reveal-stagger" id="gridWest"></div>
+</section>
+
+<!-- EASTERN COLLECTION -->
+<section id="eastern" class="collection east">
+  <div class="eyebrow eyebrow-ar ar">تراث الشرق</div>
+  <h2 class="section-title-ar">الحلويات الشرقية</h2>
+  <p class="section-sub ar">وصفات توارثتها الأجيال، نُحضّرها اليوم بأجود المكونات وأرقى لمسة حرفية.</p>
+  <div class="filters" id="filtersEast">
+    <button class="filter-btn ar active" data-filter="all">الكل</button>
+    <button class="filter-btn ar" data-filter="baked">بالفرن</button>
+    <button class="filter-btn ar" data-filter="fried">مقليات</button>
+    <button class="filter-btn ar" data-filter="pastry">معجنات</button>
+  </div>
+  <div class="grid reveal-stagger" id="gridEast"></div>
+</section>
+
+<!-- SIGNATURE -->
+<section class="signature" style="padding:0;">
+  <div class="sig-img reveal" id="sigImg"></div>
+  <div class="sig-text reveal">
+    <div class="sig-eyebrow">Signature Creation</div>
+    <h2>The Wedding<br>Masterpiece</h2>
+    <p class="en">Five hand-piped tiers, real sugar flowers, and edible gold leaf on a sponge so light it barely survives the first bite. Not just a cake — the centerpiece people remember.</p>
+    <div class="sig-stats">
+      <div class="sig-stat"><b>5</b><span class="en">Tiers</span></div>
+      <div class="sig-stat"><b>120h</b><span class="en">Craft Time</span></div>
+      <div class="sig-stat"><b>200+</b><span class="en">Sugar Flowers</span></div>
+    </div>
+    <a href="#contact" class="btn-outline en" style="border-color:var(--gold); color:var(--cream);">Book a Tasting</a>
+  </div>
+</section>
+
+<!-- OCCASIONS -->
+<section>
+  <div class="eyebrow en">Celebrations</div>
+  <h2 class="section-title">Special Occasions</h2>
+  <p class="section-sub en">Every milestone deserves a dessert worthy of the memory.</p>
+  <div class="occ-grid reveal-stagger" id="occGrid"></div>
+</section>
+
+<!-- WHY US -->
+<section style="background:var(--cream-2);">
+  <div class="eyebrow en">Why East &amp; West</div>
+  <h2 class="section-title">Crafted to Perfection</h2>
+  <div class="why-grid reveal-stagger" id="whyGrid"></div>
+  <div class="stats-row reveal-stagger" id="statsRow"></div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="eyebrow en">Moments</div>
+  <h2 class="section-title">The Gallery</h2>
+  <p class="section-sub en">A glimpse into the world we create every morning.</p>
+  <div class="gallery-grid reveal-stagger" id="galleryGrid"></div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section style="background:var(--cream-2);">
+  <div class="testimonial reveal">
+    <div class="quote-mark">"</div>
+    <p class="en">Our wedding cake was beyond anything we imagined — every guest asked who made it. It looked like art and disappeared even faster.</p>
+    <div class="testimonial-name">Layla M.</div>
+    <div class="testimonial-role en">Bride, Cairo</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="eyebrow en">Questions</div>
+  <h2 class="section-title">FAQ</h2>
+  <div class="faq-wrap" id="faqWrap"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:var(--cream-2);">
+  <div class="eyebrow en">Get in Touch</div>
+  <h2 class="section-title">Contact Us</h2>
+  <p class="section-sub en">Custom orders, questions, or just want to say hello — we'd love to hear from you.</p>
+  <div class="contact-wrap reveal">
+    <form onsubmit="event.preventDefault(); this.reset(); alert('Thanks — this is a demo form, connect it to email or a form service to go live.');">
+      <div class="form-field"><input type="text" placeholder="Name" required></div>
+      <div class="form-field"><input type="email" placeholder="Email" required></div>
+      <div class="form-field"><textarea rows="4" placeholder="Message" required></textarea></div>
+      <button type="submit" class="btn-solid en" style="border:none; cursor:pointer;">Send Message</button>
+    </form>
+    <div class="contact-info">
+      <h4 class="en">Visit Our Boutique</h4>
+      <div class="info-row"><div class="info-icon">📍</div><div><b class="en">Address</b><span class="en">12 El-Nasr St, Alexandria</span></div></div>
+      <div class="info-row"><div class="info-icon">☎</div><div><b class="en">Phone</b><span class="en">+20 100 000 0000</span></div></div>
+      <div class="info-row"><div class="info-icon">⏰</div><div><b class="en">Hours</b><span class="en">Daily · 9AM – 11PM</span></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand-ar">شرق وغرب</div>
+      <div class="foot-brand-en">East &amp; West Patisserie</div>
+      <p class="en">A luxury bakery where French patisserie meets Arabic hospitality.</p>
+      <p class="ar" style="margin-top:.6rem;">كل مناسبة تستحق حلوى لا تُنسى</p>
+    </div>
+    <div class="foot-col">
+      <h5 class="en">Explore</h5>
+      <a href="#about" class="en">About Us</a>
+      <a href="#western" class="en">Western Collection</a>
+      <a href="#eastern" class="en">الحلويات الشرقية</a>
+      <a href="#gallery" class="en">Gallery</a>
+    </div>
+    <div class="foot-col">
+      <h5 class="en">Contact</h5>
+      <a class="en">12 El-Nasr St, Alexandria</a>
+      <a class="en">+20 100 000 0000</a>
+      <a class="en">Daily · 9AM – 11PM</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 East &amp; West. Crafted with love and butter.</span>
+    <span>Designed with care · صُنع بحب</span>
+  </div>
+</footer>
+
+<script>
+// ---------- image bank (Pexels, free-to-use stock) ----------
+const IMG = {
+  hero: "https://images.pexels.com/photos/6287294/pexels-photo-6287294.jpeg?auto=compress&cs=tinysrgb&h=900&w=1600",
+  about: "https://images.pexels.com/photos/8629099/pexels-photo-8629099.jpeg?auto=compress&cs=tinysrgb&h=900&w=720",
+  signature: "https://images.pexels.com/photos/38542619/pexels-photo-38542619.jpeg?auto=compress&cs=tinysrgb&h=1200&w=940",
+  wedding: "https://images.pexels.com/photos/30321890/pexels-photo-30321890.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  birthday: "https://images.pexels.com/photos/12065625/pexels-photo-12065625.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  engagement: "https://images.pexels.com/photos/36063611/pexels-photo-36063611.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  babyshower: "https://images.pexels.com/photos/11128671/pexels-photo-11128671.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  graduation: "https://images.pexels.com/photos/14105/pexels-photo-14105.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  corporate: "https://images.pexels.com/photos/239325/pexels-photo-239325.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  croissant: "https://images.pexels.com/photos/20002837/pexels-photo-20002837.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  macarons: "https://images.pexels.com/photos/9051734/pexels-photo-9051734.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  cheesecake: "https://images.pexels.com/photos/15030594/pexels-photo-15030594.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  cupcake: "https://images.pexels.com/photos/14105/pexels-photo-14105.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  cookies: "https://images.pexels.com/photos/8081574/pexels-photo-8081574.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  brownies: "https://images.pexels.com/photos/4555505/pexels-photo-4555505.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  redvelvet: "https://images.pexels.com/photos/5112676/pexels-photo-5112676.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  kunafa: "https://images.pexels.com/photos/36691304/pexels-photo-36691304.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  baklava: "https://images.pexels.com/photos/20183041/pexels-photo-20183041.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  basbousa: "https://images.pexels.com/photos/7803115/pexels-photo-7803115.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  belehcham: "https://images.pexels.com/photos/20488815/pexels-photo-20488815.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  qatayef: "https://images.pexels.com/photos/28146630/pexels-photo-28146630.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  maamoul: "https://images.pexels.com/photos/18543485/pexels-photo-18543485.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  ghraybeh: "https://images.pexels.com/photos/20183050/pexels-photo-20183050.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  bakery: "https://images.pexels.com/photos/32459865/pexels-photo-32459865.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+};
+
+document.getElementById("heroImg").innerHTML = `<img src="${IMG.hero}" alt="">`;
+document.getElementById("aboutImg").insertAdjacentHTML("afterbegin", `<img src="${IMG.about}" alt="">`);
+document.getElementById("sigImg").innerHTML = `<img src="${IMG.signature}" alt="">`;
+
+// ---------- Western products ----------
+const westItems = [
+  {img:IMG.croissant, cat:"pastry", tag:"Popular", name:"Butter Croissant", price:"$4", desc:"Laminated 72 hours with French butter for honeycomb layers."},
+  {img:IMG.macarons, cat:"sweets", tag:"Popular", name:"French Macarons", price:"$3", desc:"Almond shells with ganache and fruit compote fillings."},
+  {img:IMG.cheesecake, cat:"cakes", tag:"", name:"Strawberry Cheesecake", price:"$9", desc:"New-York style baked cheesecake with strawberry coulis."},
+  {img:IMG.cupcake, cat:"cakes", tag:"", name:"Petit Fours Cupcakes", price:"$5.5", desc:"Delicate sponge crowned with pastel buttercream swirls."},
+  {img:IMG.cookies, cat:"sweets", tag:"", name:"Chocolate Chip Cookies", price:"$3.5", desc:"Thick, chewy, dark chocolate chunks and sea salt."},
+  {img:IMG.brownies, cat:"sweets", tag:"", name:"Fudge Brownies", price:"$4", desc:"Crackled tops, molten centres, toasted walnut crunch."},
+  {img:IMG.redvelvet, cat:"cakes", tag:"", name:"Red Velvet Slice", price:"$8", desc:"Cocoa-kissed sponge with whipped cream cheese frosting."},
+  {img:IMG.wedding, cat:"cakes", tag:"Popular", name:"Tiered Wedding Cake", price:"$420", desc:"Sugar flowers and edible gold leaf, made to order."},
+];
+const westGrid = document.getElementById("gridWest");
+westItems.forEach(i => westGrid.insertAdjacentHTML("beforeend", `
+  <div class="card" data-cat="${i.cat}">
+    <div class="card-img">${i.tag ? `<span class="card-badge en">${i.tag}</span>`:""}<img src="${i.img}" alt="${i.name}"></div>
+    <div class="card-body">
+      <h4>${i.name}</h4>
+      <p class="en">${i.desc}</p>
+      <div class="card-foot"><span class="price">${i.price}</span><button class="add-btn en">Add to Cart</button></div>
+    </div>
+  </div>`));
+
+// ---------- Eastern products ----------
+const eastItems = [
+  {img:IMG.kunafa, cat:"baked", tag:"الأكثر طلباً", name:"كنافة", price:"$14", desc:"شعيرات ذهبية محشوة بالجبن العكاوي ومغطاة بالقطر والفستق."},
+  {img:IMG.baklava, cat:"baked", tag:"الأكثر طلباً", name:"بقلاوة", price:"$9", desc:"طبقات رقيقة محشوة بالفستق والجوز، مغموسة بقطر العسل."},
+  {img:IMG.basbousa, cat:"baked", tag:"", name:"بسبوسة", price:"$6", desc:"سميد طري بالقشطة واللوز، مبلل بقطر ماء الورد."},
+  {img:IMG.belehcham, cat:"fried", tag:"", name:"بلح الشام", price:"$7", desc:"عجين مقرمش مقلي ومغموس بقطر السكر، بشكل أصابع ذهبية."},
+  {img:IMG.qatayef, cat:"fried", tag:"", name:"قطايف", price:"$8", desc:"فطائر محشوة بالقشطة أو الجوز، مقلية ومغموسة بالقطر."},
+  {img:IMG.maamoul, cat:"pastry", tag:"الأكثر طلباً", name:"معمول", price:"$4", desc:"فطائر سميد محشوة بالتمر والجوز والفستق، مزخرفة يدويًا."},
+  {img:IMG.ghraybeh, cat:"baked", tag:"", name:"غريبة", price:"$5", desc:"حلوى سمن تذوب في الفم بنكهة الهيل ومزينة بالفستق."},
+  {img:IMG.cupcake, cat:"pastry", tag:"", name:"بيتي فور", price:"$4", desc:"قطع صغيرة من الكيك الفرنسي بنكهات الزبدة والورد."},
+];
+const eastGrid = document.getElementById("gridEast");
+eastItems.forEach(i => eastGrid.insertAdjacentHTML("beforeend", `
+  <div class="card" data-cat="${i.cat}">
+    <div class="card-img">${i.tag ? `<span class="card-badge ar">${i.tag}</span>`:""}<img src="${i.img}" alt="${i.name}"></div>
+    <div class="card-body">
+      <h4>${i.name}</h4>
+      <p class="ar">${i.desc}</p>
+      <div class="card-foot"><span class="price ar">${i.price}</span><button class="add-btn ar">أضف للسلة</button></div>
+    </div>
+  </div>`));
+
+// filters
+function wireFilters(containerId, gridId){
+  const container = document.getElementById(containerId);
+  const grid = document.getElementById(gridId);
+  container.querySelectorAll(".filter-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      container.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      const f = btn.dataset.filter;
+      grid.querySelectorAll(".card").forEach(c=>{
+        c.style.display = (f==="all" || c.dataset.cat===f) ? "" : "none";
+      });
+    });
+  });
+}
+wireFilters("filtersWest","gridWest");
+wireFilters("filtersEast","gridEast");
+
+// ---------- Occasions ----------
+const occasions = [
+  {img:IMG.birthday, en:"Birthday", ar:"عيد ميلاد", desc:"Candles, colors, and a cake worth wishing for."},
+  {img:IMG.wedding, en:"Wedding", ar:"زفاف", desc:"Tiered perfection for the first day of forever."},
+  {img:IMG.engagement, en:"Engagement", ar:"خطوبة", desc:"Sweet beginnings deserve a sweet centerpiece."},
+  {img:IMG.babyshower, en:"Baby Shower", ar:"حفلة المولود", desc:"Pastel dreams and tender little bites of joy."},
+  {img:IMG.graduation, en:"Graduation", ar:"تخرج", desc:"Celebrate the milestone with something worth the degree."},
+  {img:IMG.corporate, en:"Corporate", ar:"مناسبات الشركات", desc:"Branded desserts and elegant catering for your team."},
+];
+const occGrid = document.getElementById("occGrid");
+occasions.forEach(o=> occGrid.insertAdjacentHTML("beforeend", `
+  <div class="occ-card">
+    <img src="${o.img}" alt="${o.en}">
+    <div class="occ-overlay">
+      <h4 class="en">${o.en}</h4>
+      <span class="ar-tag">${o.ar}</span>
+      <p>${o.desc}</p>
+    </div>
+  </div>`));
+
+// ---------- Why us ----------
+const whyItems = [
+  {icon:"❀", h:"Fresh Daily", p:"Everything baked fresh each morning — never frozen, never sitting."},
+  {icon:"⬥", h:"Premium Ingredients", p:"French butter, Belgian chocolate, single-origin vanilla, real fruit."},
+  {icon:"✦", h:"Custom Cakes", p:"One-of-a-kind designs tailored to your celebration."},
+  {icon:"❃", h:"Fast Delivery", p:"Refrigerated transport so orders arrive flawless, on time."},
+  {icon:"◈", h:"Professional Chefs", p:"Classically trained patissiers alongside oriental sweets masters."},
+  {icon:"❖", h:"Luxury Packaging", p:"Every box is dressed to gift. Unboxing should feel like a present."},
+];
+const whyGrid = document.getElementById("whyGrid");
+whyItems.forEach(w=> whyGrid.insertAdjacentHTML("beforeend", `
+  <div class="why-card">
+    <div class="why-icon">${w.icon}</div>
+    <h4 class="en">${w.h}</h4>
+    <p class="en">${w.p}</p>
+  </div>`));
+
+const stats = [{n:"14+",l:"Years of Craft"},{n:"48K+",l:"Happy Customers"},{n:"30K+",l:"Orders Delivered"},{n:"900+",l:"Custom Cakes"}];
+const statsRow = document.getElementById("statsRow");
+stats.forEach(s=> statsRow.insertAdjacentHTML("beforeend", `<div class="stat"><b>${s.n}</b><span class="en">${s.l}</span></div>`));
+
+// ---------- Gallery ----------
+const galleryItems = [
+  {img:IMG.wedding, tag:"Wedding Cakes"},
+  {img:IMG.macarons, tag:"Macarons"},
+  {img:IMG.birthday, tag:"Birthday Cakes"},
+  {img:IMG.baklava, tag:"Arabic Sweets"},
+  {img:IMG.croissant, tag:"Pastries"},
+  {img:IMG.bakery, tag:"Our Kitchen"},
+  {img:IMG.cookies, tag:"Cookies"},
+  {img:IMG.kunafa, tag:"Arabic Sweets"},
+];
+const galleryGrid = document.getElementById("galleryGrid");
+galleryItems.forEach(g=> galleryGrid.insertAdjacentHTML("beforeend", `
+  <div class="g-item"><img src="${g.img}" alt="${g.tag}"><span class="g-tag en">${g.tag}</span></div>`));
+
+// ---------- FAQ ----------
+const faqs = [
+  {ar:false, q:"How far in advance should I order a custom cake?", a:"For custom and wedding cakes we recommend booking 2–4 weeks ahead. Birthday cakes and dessert boxes usually just need 48–72 hours."},
+  {ar:false, q:"Do you offer delivery?", a:"Yes — refrigerated delivery across the city. Free on orders above $120, with same-day delivery available for in-stock items."},
+  {ar:true, q:"هل توصلون خارج المدينة؟", a:"نعم، نوفر خدمة التوصيل لمعظم المناطق المحيطة. للمناسبات الكبيرة، يُفضّل التواصل مسبقًا لترتيب التوصيل في أفضل وقت."},
+  {ar:true, q:"هل يمكن تخصيص الطلب حسب المناسبة؟", a:"بالتأكيد — نصمم القطع حسب الألوان والمناسبة ونوع الحلوى المطلوب، تواصل معنا لمناقشة التفاصيل."},
+];
+const faqWrap = document.getElementById("faqWrap");
+faqs.forEach((f,idx)=>{
+  faqWrap.insertAdjacentHTML("beforeend", `
+    <div class="faq-item ${f.ar?'ar':''}" data-idx="${idx}">
+      <button class="faq-q"><span>${f.q}</span><span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>${f.a}</p></div>
+    </div>`);
+});
+faqWrap.querySelectorAll(".faq-item").forEach(item=>{
+  item.querySelector(".faq-q").addEventListener("click", ()=>{
+    const isOpen = item.classList.contains("open");
+    faqWrap.querySelectorAll(".faq-item").forEach(i=>{i.classList.remove("open"); i.querySelector(".faq-a").style.maxHeight=null;});
+    if(!isOpen){
+      item.classList.add("open");
+      const a = item.querySelector(".faq-a");
+      a.style.maxHeight = a.scrollHeight + "px";
+    }
+  });
+});
+
+// ---------- header on scroll ----------
+const header = document.getElementById("siteHeader");
+window.addEventListener("scroll", ()=>{
+  header.classList.toggle("scrolled", window.scrollY > 40);
+});
+
+// ---------- scroll reveal ----------
+const revealEls = document.querySelectorAll(".reveal, .reveal-stagger");
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add("in");
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
